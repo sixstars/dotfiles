@@ -149,11 +149,12 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
 
     # Relink Tools for portable use
     [[ -e ~/Tools/ ]] && rm -f ~/Tools
-    ln -s $BASE ~/Tools
+    ln -s $(dirname $BABUN_HOME) ~/Tools
 
     alias big5="iconv -f big5"
     alias sqlmap="~/Tools/sqlmap/sqlmap.py"
     alias dex2jar="~/Tools/dex2jar/d2j-dex2jar.bat"
+    alias apktool="~/Tools/apktool/apktool.bat"
 
     # compile with cl.exe
     alias cl="cl $@ /MT /EHsc /Oi /O2 /Gy /nologo"

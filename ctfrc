@@ -12,12 +12,12 @@ alias NOASLR="setarch `uname -m` -R"
 
 aslr()
 {
-    if [ $1 = "on" ]; then
+    if [ $# -eq 0 ]; then
+        cat /proc/sys/kernel/randomize_va_space
+    elif [ $1 = "on" ]; then
         sudo sysctl -w kernel.randomize_va_space=2
     elif [ $1 = "off" ]; then
         sudo sysctl -w kernel.randomize_va_space=0
-    else
-        cat /proc/sys/kernel/randomize_va_space
     fi
 }
 

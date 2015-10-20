@@ -27,7 +27,7 @@ else
 
     " --- Plugins ---
     Plugin 'L9'             "L9 is required by AutoComplPop
-    Plugin 'AutoComplPop'
+    Plugin 'othree/vim-autocomplpop'
     Plugin 'kien/ctrlp.vim'
     Plugin 'majutsushi/tagbar'
     Plugin 'SirVer/ultisnips'
@@ -61,7 +61,6 @@ set autoread
 
 " Set leader key to ','
 let mapleader = ","
-let g:mapleader = ","
 
 " Set utf8 as standard encoding
 let $LANG="en_US.utf-8"
@@ -294,6 +293,19 @@ function! VisualSelection(direction) range
     let @" = l:saved_reg
 endfunction
 
+let $in_hex=0
+function! ToggleHex()
+    "set binary
+    "set noeol
+    if $in_hex>0
+        :%!xxd -r
+        let $in_hex=0
+    else
+        :%!xxd
+        let $in_hex=1
+    endif
+endfunction
+
 "==============================================================
 ">  Other
 "==============================================================
@@ -303,6 +315,11 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+
+" Copy to system clipboard by Ctrl-C
+if has("mac") || has("macunix")
+    vmap <C-c> :w !pbcopy<CR><CR> 
+endif
 
 " Daily routines
 noremap <leader>z :w<CR><C-Z>
@@ -325,6 +342,10 @@ set pastetoggle=<F2>
 " <F3> toggles line number
 noremap <silent> <F3> :set nu!<CR>
 imap <silent><F3> <C-O><F3>
+
+" <F4> toggles hex edit
+noremap <silent> <F4> :call ToggleHex()<CR>
+imap <silent><F4> <C-O><F4>
 
 " <F5> compile / run current file
 autocmd filetype ruby nnoremap <F5> :w <bar> exec '!ruby '.shellescape('%') <CR>
@@ -352,10 +373,6 @@ imap <silent> <F10> <C-O><F10>
 " <F12> toggles tagbar
 noremap <silent> <F12> :TagbarToggle<CR>
 imap <silent> <F12> <C-O><F12>
-
-" Command for hex edit
-:command Hex %!xxd
-:command Unhex %!xxd  -r 
 
 "==============================================================
 "> Plugins
@@ -400,4 +417,3 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-

@@ -147,6 +147,10 @@ webshell()
 
 rsa-public()
 {
-    openssl rsa -noout -text -inform PEM -in ./$1 -pubin
+    openssl rsa -noout -text -pubin -in $1 | tr -d \\n | sed 's/Modulus/Public Key/;s/):/)\nN=/;s/Exponent/\ne=/;s/ //g;s/://g'; echo
 }
 
+rsa-private()
+{
+    openssl rsa -noout -text -in $1 | tr -d \\n | sed 's/)modulus:/)\nN=/;s/privateExponent:/\nd=/;s/publicExponent:/\n\ne=/;s/prime1/\n\np=/;s/prime2/\n\nq=/;s/exponent.*/\n/g;s/ //g;s/://g';
+}

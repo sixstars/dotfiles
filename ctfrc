@@ -83,7 +83,9 @@ ncat-gdb()
 
 fuckalarm()
 {
-    if [ ! -f $1 ]; then
+    if [ ! $# -eq 1 ]; then
+        echo "usage: $FUNCNAME <File>"
+    elif [ ! -f $1 ]; then
         echo "$1 not found!"
     else
         sed s/alarm/isnan/g "$1" > $1"_noalarm"
@@ -93,7 +95,9 @@ fuckalarm()
 
 fucksleep()
 {
-    if [ ! -f $1 ]; then
+    if [ ! $# -eq 1 ]; then
+        echo "usage: $FUNCNAME <File>"
+    elif [ ! -f $1 ]; then
         echo "$1 not found!"
     else
         sed s/sleep/isnan/g "$1" > $1"_nosleep"
@@ -117,6 +121,7 @@ r = remote(\"localhost\", 4000);
 
 
 r.interactive()" > "$1.py"
+    vim "$1.py"
     fi
 }
 
@@ -147,10 +152,61 @@ webshell()
 
 rsa-public()
 {
-    openssl rsa -noout -text -pubin -in $1 | tr -d \\n | sed 's/Modulus/Public Key/;s/):/)\nN=/;s/Exponent/\ne=/;s/ //g;s/://g'; echo
+    if [ ! -f $1 ]; then
+        echo "$1 not found!"
+    else
+        openssl rsa -noout -text -pubin -in $1 | tr -d \\n | sed 's/Modulus/Public Key/;s/):/)\nN=/;s/Exponent/\ne=/;s/ //g;s/://g'; echo
+    fi
 }
 
 rsa-private()
 {
-    openssl rsa -noout -text -in $1 | tr -d \\n | sed 's/)modulus:/)\nN=/;s/privateExponent:/\nd=/;s/publicExponent:/\n\ne=/;s/prime1/\n\np=/;s/prime2/\n\nq=/;s/exponent.*/\n/g;s/ //g;s/://g';
+    if [ ! -f $1 ]; then
+        echo "$1 not found!"
+    else
+        openssl rsa -noout -text -in $1 | tr -d \\n | sed 's/)modulus:/)\nN=/;s/privateExponent:/\nd=/;s/publicExponent:/\n\ne=/;s/prime1/\n\np=/;s/prime2/\n\nq=/;s/exponent.*/\n/g;s/ //g;s/://g';
+    fi
+}
+
+rsa-expublic()
+{
+    if [ $# -gt 2 -o $# -lt 1 ]; then
+        echo "usage: $FUNCNAME <private key> <output pem>"
+    elif [ ! -f "$1" ]; then
+        echo "Private key not found!"
+    elif [ ! -f "$2" ]; then
+        openssl rsa -in $1 -pubout -out "public.pem"
+    else
+        openssl rsa -in $1 -pubout -out $2
+    fi
+}
+
+rsa-enc()
+{
+    if [ $# -gt 3 -o $# -lt 2 ]; then
+        echo "usage: $FUNCNAME <public key> <input file> <output file>"
+    elif [ ! -f "$1" ]; then
+        echo "Public key not found!"
+    elif [ ! -f "$2" ]; then
+        echo "Input file not found!"
+    elif [ ! -f "$3" ]; then
+        openssl rsautl -encrypt -pubin -inkey $1 -in $2 -out "$2.enc"
+    else
+        openssl rsautl -encrypt -pubin -inkey $1 -in $2 -out $3
+    fi
+}
+
+rsa-dec()
+{
+    if [ $# -gt 3 -o $# -lt 2 ]; then
+        echo "usage: $FUNCNAME <private key> <input file> <output file>"
+    elif [ ! -f "$1" ]; then
+        echo "Private key not found!"
+    elif [ ! -f "$2" ]; then
+        echo "Input file not found!"
+    elif [ ! -f "$3" ]; then
+        openssl rsautl -decrypt -inkey $1 -in $2 -out "$2.dec"
+    else
+        openssl rsautl -decrypt -inkey $1 -in $2 -out $3
+    fi
 }

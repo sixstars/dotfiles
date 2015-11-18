@@ -28,7 +28,7 @@ else
     " --- Plugins ---
     Plugin 'L9'             "L9 is required by AutoComplPop
     Plugin 'othree/vim-autocomplpop'
-    Plugin 'kien/ctrlp.vim'
+    Plugin 'ctrlpvim/ctrlp.vim'
     Plugin 'majutsushi/tagbar'
     Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'

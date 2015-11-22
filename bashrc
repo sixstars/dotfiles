@@ -158,5 +158,5 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
 
     # compile with cl.exe
     alias cl="cl $@ /MT /EHsc /Oi /O2 /Gy /nologo"
-    alias cldll="cl $@ /MT /EHsc /D_USRDLL /D_WINDLL /Oi /O2 /nologo"
+    alias cldll="cl $@ /LD /link"
 fi

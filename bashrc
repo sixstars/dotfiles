@@ -98,7 +98,7 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 export PATH=~/bin:$PATH
-export EDITOR='vim'
+export EDITOR=vim
 export PYTHONSTARTUP="$HOME/.pythonrc"
 export CLICOLOR=1
 export TERM=screen-256color
@@ -110,6 +110,7 @@ alias tip="curl --socks5 127.0.0.1:9150 orange.tw"
 alias tcurl="curl --socks5 127.0.0.1:9150 $@"
 alias tssh="ssh -o 'ProxyCommand /usr/bin/nc -x 127.0.0.1:9150 %h %p'"
 alias tunnel="ssh -D 8080 -C -N $@"
+alias rssh="ssh -NfR 12345:localhost:22 $@"
 alias strace="strace -ix"
 alias ltrace="ltrace -i"
 alias objdump="objdump -M intel"

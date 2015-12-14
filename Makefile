@@ -1,6 +1,7 @@
 all: clean
 	ln -s ${HOME}/.dotfiles/bashrc ${HOME}/.bashrc
 	ln -s ${HOME}/.dotfiles/ctfrc ${HOME}/.ctfrc
+	ln -s ${HOME}/.dotfiles/gdbinit ${HOME}/.gdbinit
 	ln -s ${HOME}/.dotfiles/git-prompt.sh ${HOME}/.git-prompt.sh
 	ln -s ${HOME}/.dotfiles/gitconfig ${HOME}/.gitconfig
 	ln -s ${HOME}/.dotfiles/inputrc ${HOME}/.inputrc
@@ -12,6 +13,7 @@ all: clean
 clean:
 	rm -rf ${HOME}/.bashrc
 	rm -rf ${HOME}/.ctfrc
+	rm -rf ${HOME}/.gdbinit
 	rm -rf ${HOME}/.git-prompt.sh
 	rm -rf ${HOME}/.gitconfig
 	rm -rf ${HOME}/.inputrc

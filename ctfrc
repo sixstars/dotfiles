@@ -66,7 +66,7 @@ ncat-ltrace()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
-        ncat -vc "ltrace -i $*" -kl localhost 4000 
+        ncat -vc "ltrace -iC $*" -kl localhost 4000 
     fi
 }
 

@@ -115,6 +115,7 @@ alias strace="strace -ix"
 alias ltrace="ltrace -i"
 alias objdump="objdump -M intel"
 alias len="expr length $1"
+alias fuck="killall -9 $1"
 
 alias ll='ls -l'
 alias la='ls -A'

@@ -118,6 +118,18 @@ fucksleep()
     fi
 }
 
+fuckptrace()
+{
+    if [ ! $# -eq 1 ]; then
+        echo "usage: $FUNCNAME <File>"
+    elif [ ! -f $1 ]; then
+        echo "$1 not found!"
+    else
+        sed s/ptrace/isnanl/g "$1" > $1"_noptrace"
+        chmod +x $1"_nosleep"
+    fi
+}
+
 pwn()
 {
     if [ $# -eq 0 ]; then
@@ -253,7 +265,7 @@ rsa-enc()
         echo "Public key not found!"
     elif [ ! -f "$2" ]; then
         echo "Input file not found!"
-    elif [ ! -f "$3" ]; then
+    elif [ ! -z "$3" ]; then
         openssl rsautl -encrypt -pubin -inkey $1 -in $2 -out "$2.enc"
     else
         openssl rsautl -encrypt -pubin -inkey $1 -in $2 -out $3

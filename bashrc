@@ -102,6 +102,7 @@ export EDITOR=vim
 export PYTHONSTARTUP="$HOME/.pythonrc"
 export CLICOLOR=1
 export TERM=screen-256color
+export PIN_ROOT="$HOME/bin/pin/"
 
 alias gdb="gdb -q"
 alias tmux="tmux -2"
@@ -159,6 +160,6 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
     alias apktool="~/Tools/apktool/apktool.bat"
 
     # compile with cl.exe
-    alias cl="cl $@ /MT /EHsc /Oi /O2 /Gy /nologo"
-    alias cldll="cl $@ /LD /link"
+    alias cl="cl.exe $@ /MT /EHsc /Oi /O2 /Gy /nologo"
+    alias cldll="cl.exe $@ /LD /link"
 fi

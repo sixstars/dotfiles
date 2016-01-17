@@ -11,7 +11,6 @@ alias LOCALLIB="LD_LIBRARY_PATH=./"
 alias NOASLR="setarch `uname -m` -R"
 alias findsuid="find . -type f -perm +6000 -ls"
 alias findwrite="find / -perm -2 ! -type l -ls"
-alias syscall='grep -m 1 '$1' /usr/include/asm/unistd.h /usr/include/asm/unistd_32.h /usr/include/asm/unistd_64.h 2>/dev/null'
 
 aslr()
 {
@@ -22,6 +21,25 @@ aslr()
     elif [ $1 = "off" ]; then
         sudo sysctl -w kernel.randomize_va_space=0
     fi
+}
+
+syscall()
+{
+    grep --color -m 1 "$1" /usr/include/asm/unistd.h /usr/include/asm/unistd_32.h /usr/include/asm/unistd_64.h 2>/dev/null
+}
+
+asm2elf()
+{
+    out=${2:-"elf.out"}
+    nasm -f elf $1 -o asm.o && ld asm.o -m elf_i386 -o $out && rm -f asm.o
+
+}
+
+asm2elf64()
+{
+    out=${2:-"elf64.out"}
+    nasm -f elf64 $1 -o asm.o && ld asm.o -m elf_x86_64 -o $out && rm -f asm.o
+
 }
 
 pxxd()

@@ -14,7 +14,7 @@ alias findwrite="find / -perm -2 ! -type l -ls"
 
 aslr()
 {
-    if [ $# -eq 0 ]; then
+    if [ -z $1 ]; then
         cat /proc/sys/kernel/randomize_va_space
     elif [ $1 = "on" ]; then
         sudo sysctl -w kernel.randomize_va_space=2
@@ -30,14 +30,13 @@ syscall()
 
 asm2elf()
 {
-    out=${2:-"elf.out"}
+    local out=${2:-"elf.out"}
     nasm -f elf $1 -o asm.o && ld asm.o -m elf_i386 -o $out && rm -f asm.o
-
 }
 
 asm2elf64()
 {
-    out=${2:-"elf64.out"}
+    local out=${2:-"elf64.out"}
     nasm -f elf64 $1 -o asm.o && ld asm.o -m elf_x86_64 -o $out && rm -f asm.o
 
 }
@@ -49,7 +48,7 @@ pxxd()
 
 wgdb()
 {
-    pid=`pgrep -n $1`
+    local pid=`pgrep -n $1`
     while [ "$pid" = "" ]; do
         pid=`pgrep -n $1`
     done
@@ -102,7 +101,7 @@ ncat-gdb()
     else
         echo ${@: -1} listen on port 4000, gdbserver listen on port 4444
         echo run \'gdb ${@: -1}\' then target remote localhost:4444 in gdb
-        echo ""
+        echo 
 
         ncat -vc "gdbserver localhost:4444 $*" -kl localhost 4000 
     fi
@@ -110,8 +109,8 @@ ncat-gdb()
 
 fuckalarm()
 {
-    if [ ! $# -eq 1 ]; then
-        echo "usage: $FUNCNAME <File>"
+    if [ -z $1 ]; then
+        echo "Usage: $FUNCNAME <File>"
     elif [ ! -f $1 ]; then
         echo "$1 not found!"
     else
@@ -122,8 +121,8 @@ fuckalarm()
 
 fucksleep()
 {
-    if [ ! $# -eq 1 ]; then
-        echo "usage: $FUNCNAME <File>"
+    if [ -z $1 ]; then
+        echo "Usage: $FUNCNAME <File>"
     elif [ ! -f $1 ]; then
         echo "$1 not found!"
     else
@@ -134,7 +133,7 @@ fucksleep()
 
 fuckptrace()
 {
-    if [ ! $# -eq 1 ]; then
+    if [ -z $1 ]; then
         echo "usage: $FUNCNAME <File>"
     elif [ ! -f $1 ]; then
         echo "$1 not found!"
@@ -261,7 +260,7 @@ rsa-private()
 rsa-expublic()
 {
     if [ $# -gt 2 -o $# -lt 1 ]; then
-        echo "usage: $FUNCNAME <private key> <output pem>"
+        echo "Usage: $FUNCNAME <private key> <output pem>"
     elif [ ! -f "$1" ]; then
         echo "Private key not found!"
     elif [ ! -f "$2" ]; then
@@ -274,7 +273,7 @@ rsa-expublic()
 rsa-enc()
 {
     if [ $# -gt 3 -o $# -lt 2 ]; then
-        echo "usage: $FUNCNAME <public key> <input file> <output file>"
+        echo "Usage: $FUNCNAME <public key> <input file> <output file>"
     elif [ ! -f "$1" ]; then
         echo "Public key not found!"
     elif [ ! -f "$2" ]; then
@@ -289,7 +288,7 @@ rsa-enc()
 rsa-dec()
 {
     if [ $# -gt 3 -o $# -lt 2 ]; then
-        echo "usage: $FUNCNAME <private key> <input file> <output file>"
+        echo "Usage: $FUNCNAME <private key> <input file> <output file>"
     elif [ ! -f "$1" ]; then
         echo "Private key not found!"
     elif [ ! -f "$2" ]; then

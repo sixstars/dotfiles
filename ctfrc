@@ -59,8 +59,8 @@ wgdb()
 
 ncat-local()
 {
-    if [ ! -f ${@: -1} ]; then
-        echo "${@: -1} not found!"
+    if [ -z "$1" ]; then
+        echo "Usage: $FUNCNAME <command>"
     else
         ncat -vc "$*" -kl localhost 4000 
     fi

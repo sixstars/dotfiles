@@ -91,9 +91,8 @@ else
     }
 fi
 
-if [ -f ~/.ctfrc ]; then
-    . ~/.ctfrc
-fi
+[ -f ~/.ctfrc ] && . ~/.ctfrc
+
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
@@ -108,15 +107,15 @@ alias gdb="gdb -q"
 alias tmux="tmux -2"
 alias rip="curl orange.tw"
 alias tip="curl --socks5 127.0.0.1:9150 orange.tw"
-alias tcurl="curl --socks5 127.0.0.1:9150 $@"
+alias tcurl="curl --socks5 127.0.0.1:9150 "
 alias tssh="ssh -o 'ProxyCommand /usr/bin/nc -x 127.0.0.1:9150 %h %p'"
-alias tunnel="ssh -D 8080 -C -N $@"
-alias rssh="ssh -NfR 12345:localhost:22 $@"
+alias tunnel="ssh -D 8080 -C -N "
+alias rssh="ssh -NfR 12345:localhost:22 "
 alias strace="strace -ix"
 alias ltrace="ltrace -i"
 alias objdump="objdump -M intel"
-alias len="expr length $1"
-alias fuck="killall -9 $1"
+alias len="expr length "
+alias fuck="killall -9 "
 
 alias ll='ls -l'
 alias la='ls -A'
@@ -130,7 +129,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # Less Colors for Man Pages
-export PAGER="`which less` -s"
+export PAGER="$(which less) -s"
 export BROWSER="$PAGER"
 export LESS_TERMCAP_mb=$'\E[38;5;167m'  # begin blinking
 export LESS_TERMCAP_md=$'\E[38;5;39m'   # begin bold
@@ -160,6 +159,6 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
     alias apktool="~/Tools/apktool/apktool.bat"
 
     # compile with cl.exe
-    alias cl="cl.exe $@ /MT /EHsc /Oi /O2 /Gy /nologo"
-    alias cldll="cl.exe $@ /LD /link"
+    alias cl="cl.exe /MT /EHsc /Oi /O2 /Gy /nologo"
+    alias cldll="cl.exe /LD /link"
 fi

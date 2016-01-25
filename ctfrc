@@ -56,6 +56,15 @@ wgdb()
     gdb -ex continue -p $pid
 }
 
+maps()
+{
+    if [ -z "$1" ]; then
+        echo "Usage: $FUNCNAME <proc name>"
+    else
+        cat /proc/$(pgrep -n $1)/maps
+    fi
+}
+
 ncat-local()
 {
     if [ -z "$1" ]; then
@@ -154,6 +163,7 @@ pwn()
 # encoding: utf-8
 
 from pwn import *   # pip install pwntools
+#context.log_level = logging.DEBUG
 
 r = remote(\"localhost\", 4000);
 

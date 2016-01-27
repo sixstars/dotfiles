@@ -4,8 +4,8 @@
 alias rgdb="gdb -ex 'target remote localhost:4444'"
 alias asm32="as -msyntax=intel --32 -mnaked-reg -aln -o /dev/null"
 alias asm64="as -msyntax=intel --64 -mnaked-reg -aln -o /dev/null"
-alias asmarm="arm-linux-gnueabi-as -aln -o /dev/null"
-alias asmaarch64="aarch64-linux-gnu-as -aln -o /dev/null"
+alias arm-asm="arm-linux-gnueabi-as -aln -o /dev/null"
+alias a64-asm="aarch64-linux-gnu-as -aln -o /dev/null"
 alias lddd="LD_TRACE_LOADED_OBJECTS=1"
 alias LOCALLIB="LD_LIBRARY_PATH=./"
 alias NOASLR="setarch `uname -m` -R"
@@ -43,7 +43,11 @@ asm2elf64()
 
 pxxd()
 {
-    xxd -p "$1" | awk -F '' '{ for(i=1; i<=NF; i+=2) {printf "\x%s%s", $i,$(i+1);}; printf "\n" }'
+    if [ -z "$1" ]; then
+        xxd -p | awk -F '' '{ for(i=1; i<=NF; i+=2) {printf "\x%s%s", $i,$(i+1);}; printf "\n" }'
+    else
+        xxd -p "$1" | awk -F '' '{ for(i=1; i<=NF; i+=2) {printf "\x%s%s", $i,$(i+1);}; printf "\n" }'
+    fi
 }
 
 wgdb()

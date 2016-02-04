@@ -146,6 +146,8 @@ complete -W "$(echo `cat ~/.bash_history | egrep '^(p|g)?ssh ' | sort | uniq | s
 if [ "$(uname)" == "Darwin" ]; then
     export LSCOLORS="Exfxcxdxbxegedabagacad"
     alias ls="ls -G"
+    alias hidedesk="defaults write com.apple.finder CreateDesktop false;killall Finder"
+    alias showdesk="defaults write com.apple.finder CreateDesktop true;killall Finder"
 elif [ "$(uname -o)" == "Cygwin" ]; then
     chcp.com 437 > /dev/null    # set codepage to 437
 

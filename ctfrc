@@ -163,16 +163,15 @@ pwn()
     elif [ -f "$1.py" ]; then
         echo "$1.py already exists!"
     else
-        echo "#!/usr/bin/env python
-# encoding: utf-8
+        echo '#!/usr/bin/env python
 
 from pwn import *   # pip install pwntools
-#context.log_level = 0
+#context.log_level = "DEBUG"
 
-r = remote(\"localhost\", 4000);
+r = remote("localhost", 4000);
 
 
-r.interactive()" > "$1.py"
+r.interactive()' > "$1.py"
     vim "$1.py"
     fi
 }
@@ -180,6 +179,11 @@ r.interactive()" > "$1.py"
 quote()
 {
     python -c "print __import__('urllib').quote('$1')"
+}
+
+unquote()
+{
+    python -c "print __import__('urllib').unquote('$1')"
 }
 
 shellcode()

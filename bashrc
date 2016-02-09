@@ -146,19 +146,33 @@ complete -W "$(echo `cat ~/.bash_history | egrep '^(p|g)?ssh ' | sort | uniq | s
 if [ "$(uname)" == "Darwin" ]; then
     export LSCOLORS="Exfxcxdxbxegedabagacad"
     alias ls="ls -G"
+    alias hidedesk="defaults write com.apple.finder CreateDesktop false;killall Finder"
+    alias showdesk="defaults write com.apple.finder CreateDesktop true;killall Finder"
 elif [ "$(uname -o)" == "Cygwin" ]; then
     chcp.com 437 > /dev/null    # set codepage to 437
 
-    # Relink Tools for portable use
-    [[ -e ~/Tools/ ]] && rm -f ~/Tools
-    ln -s $(dirname $BABUN_HOME) ~/Tools
+    if [ ! -z $BABUN_HOME ]; then 
+        # Fix babun bug of reload .bashrc
+        [[ -z ${USER_BASHRC} ]] && USER_BASHRC="1" || return
 
-    alias big5="iconv -f big5"
-    alias sqlmap="~/Tools/sqlmap/sqlmap.py"
-    alias dex2jar="~/Tools/dex2jar/d2j-dex2jar.bat"
-    alias apktool="~/Tools/apktool/apktool.bat"
+        # Relink Tools folder for portable use
+        [[ -e ~/Tools/ ]] && rm -f ~/Tools
+            
+        export TOOLS=$(dirname $BABUN_HOME)
+        ln -s $TOOLS ~/Tools
 
-    # compile with cl.exe
-    alias cl="cl.exe /MT /EHsc /Oi /O2 /Gy /nologo"
-    alias cldll="cl.exe /LD /link"
+        export PATH=$PATH:$TOOLS:$TOOLS/java/bin
+        export JAVA_HOME=$TOOLS/java
+
+        alias big5="iconv -f big5"
+        alias sqlmap="~/Tools/sqlmap/sqlmap.py"
+        alias dex2jar="~/Tools/dex2jar/d2j-dex2jar.bat"
+        alias apktool="~/Tools/apktool/apktool.bat"
+
+        # set env for vc
+        [ -f ~/Tools/VC9/vc.sh ] && . ~/Tools/VC9/vc.sh
+        alias cl="cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
+        alias cldll="cl.exe /LD /link"
+
+    fi
 fi

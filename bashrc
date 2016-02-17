@@ -172,7 +172,7 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
 
         # set env for vc
         [ -f ~/Tools/VC9/vc.sh ] && . ~/Tools/VC9/vc.sh
-        alias cl="cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
+        alias clexe="cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
         alias cldll="cl.exe /LD /link"
 
     fi

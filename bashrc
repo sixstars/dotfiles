@@ -175,5 +175,7 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
         alias clexe="cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
         alias cldll="cl.exe /LD /link"
 
+        unset PYTHONHOME
+
     fi
 fi

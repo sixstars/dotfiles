@@ -168,7 +168,7 @@ pwn()
 from pwn import *   # pip install pwntools
 #context.log_level = "DEBUG"
 
-r = remote("localhost", 4000);
+r = remote("localhost", 4000)
 
 
 r.interactive()' > "$1.py"

@@ -32,8 +32,8 @@ else
     Plugin 'majutsushi/tagbar'
     Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'
-    Plugin 'scrooloose/nerdtree'
-    Plugin 'bling/vim-airline'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
     Plugin 'L4ys/molokai'
     Plugin 'vectorstorm/vim-csyn'
     Plugin 'tpope/vim-surround'
@@ -69,6 +69,9 @@ set fileencodings=usc-bom,utf-8,big5,taiwan,chinese,default,latin1
 
 " Turn off expand tab in makefile
 autocmd FileType make setlocal noexpandtab
+
+" Indent 2 for html / css
+autocmd BufNewFile,BufRead *.html,*.htm,*.css set noexpandtab tabstop=2 shiftwidth=2  
 
 "==============================================================
 ">  VIM user interface
@@ -347,13 +350,6 @@ imap <silent><F3> <C-O><F3>
 noremap <silent> <F4> :call ToggleHex()<CR>
 imap <silent><F4> <C-O><F4>
 
-" <F5> compile / run current file
-autocmd filetype ruby nnoremap <F5> :w <bar> exec '!ruby '.shellescape('%') <CR>
-autocmd filetype php nnoremap <F5> :w <bar> exec '!php -f '.shellescape('%') <CR>
-autocmd filetype python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
-autocmd filetype c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -O2 && ./a.out'<CR>
-autocmd filetype cpp nnoremap <F5> :w <bar> exec '!g++ '.shellescape('%').' -std=c++11 -O2 && ./a.out'<CR>
-
 " <F6> syntax sync
 noremap <F6> <Esc>:syntax sync fromstart<CR>
 imap <silent><F6> <C-O><F6>
@@ -417,3 +413,5 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+

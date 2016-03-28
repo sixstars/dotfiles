@@ -111,6 +111,7 @@ alias tcurl="curl --socks5 127.0.0.1:9150 "
 alias tssh="ssh -o 'ProxyCommand /usr/bin/nc -x 127.0.0.1:9150 %h %p'"
 alias tunnel="ssh -D 8080 -C -N "
 alias rssh="ssh -NfR 12345:localhost:22 "
+alias lssh="ssh -NfL 12345:localhost:12345 "
 alias strace="strace -ix"
 alias ltrace="ltrace -i"
 alias objdump="objdump -M intel"
@@ -171,8 +172,10 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
 
         # set env for vc
         [ -f ~/Tools/VC9/vc.sh ] && . ~/Tools/VC9/vc.sh
-        alias cl="cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
+        alias clexe="cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
         alias cldll="cl.exe /LD /link"
+
+        unset PYTHONHOME
 
     fi
 fi

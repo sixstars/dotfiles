@@ -17,7 +17,18 @@ define re
     end
 end
 
+
+define at
+    python import subprocess;gdb.execute("attach " + subprocess.check_output("pidof $arg0", shell=True).decode("utf-8").split()[0])
+end
+
 document re
 Syntax: re PORT
 | remote debug
 end
+
+document at
+Syntax: at NAME
+| attach by name
+end
+

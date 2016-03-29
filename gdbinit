@@ -17,9 +17,12 @@ define re
     end
 end
 
-
 define at
-    python import subprocess;gdb.execute("attach " + subprocess.check_output("pidof $arg0", shell=True).decode("utf-8").split()[0])
+    if $argc == 0
+        python import subprocess;gdb.execute("attach " + subprocess.check_output("pidof " + gdb.objfiles()[0].filename, shell=True).decode("utf-8").split()[0])
+    else
+        python import subprocess;gdb.execute("attach " + subprocess.check_output("pidof $arg0", shell=True).decode("utf-8").split()[0])
+    end
 end
 
 document re

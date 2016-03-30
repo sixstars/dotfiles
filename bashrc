@@ -82,14 +82,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f ./.git-prompt.sh ]; then
-    . ~/.git-prompt.sh
-else
-    __git_ps1()
-    {
-        :
-    }
-fi
+__git_ps1() 
+{
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || return;
+    echo " ("${ref#refs/heads/}")";
+}
 
 [ -f ~/.ctfrc ] && . ~/.ctfrc
 

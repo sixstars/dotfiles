@@ -98,7 +98,7 @@ export EDITOR=vim
 export PYTHONSTARTUP="$HOME/.pythonrc"
 export CLICOLOR=1
 export TERM=screen-256color
-export PIN_ROOT="$HOME/bin/pin/"
+export PIN_ROOT="$HOME/bin/pin"
 
 alias gdb="gdb -q"
 alias tmux="tmux -2"
@@ -167,12 +167,16 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
         alias dex2jar="~/Tools/dex2jar/d2j-dex2jar.bat"
         alias apktool="~/Tools/apktool/apktool.bat"
 
-        # set env for vc
-        [ -f ~/Tools/VC9/vc.sh ] && . ~/Tools/VC9/vc.sh
-        alias clexe="cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
-        alias cldll="cl.exe /LD /link"
+		# pin
+        alias pin="~/Tools/pin/pin"
+        export PIN_ROOT="$TOOLS/pin"
+
+        # msvc
+        alias vc9="~/Tools/VC9/setenv"
+        alias vc12="~/Tools/VC12/setenv"
+        alias clexe="vc9 cl.exe /MD /EHsc /Oi /O2 /Gy /nologo"
+        alias cldll="vc9 cl.exe /LD /link"
 
         unset PYTHONHOME
-
     fi
 fi

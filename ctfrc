@@ -2,6 +2,7 @@
 # Lazy functions for ctf
 
 alias rgdb="gdb -ex 'target remote localhost:4444'"
+alias rop="ROPgadget --binary"
 alias asm32="as -msyntax=intel --32 -mnaked-reg -aln -o /dev/null"
 alias asm64="as -msyntax=intel --64 -mnaked-reg -aln -o /dev/null"
 alias asm-arm="arm-linux-gnueabi-as -aln -o /dev/null"

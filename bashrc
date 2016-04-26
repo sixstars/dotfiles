@@ -85,7 +85,7 @@ fi
 __git_ps1() 
 {
     ref=$(git symbolic-ref HEAD 2> /dev/null) || return;
-    echo " ("${ref#refs/heads/}")";
+    echo " ["${ref#refs/heads/}"]";
 }
 
 [ -f ~/.ctfrc ] && . ~/.ctfrc

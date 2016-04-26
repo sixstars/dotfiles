@@ -167,11 +167,6 @@ r.interactive()' > "$1.py"
     fi
 }
 
-const()
-{
-    python -c "from pwn import constants; c=constants.$1; print c, c.real"
-}
-
 quote()
 {
     python -c "print __import__('urllib').quote('$1')"

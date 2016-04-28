@@ -109,14 +109,14 @@ alias tssh="ssh -o 'ProxyCommand /usr/bin/nc -x 127.0.0.1:9150 %h %p'"
 alias tunnel="ssh -D 8080 -C -N "
 alias rssh="ssh -NfR 12345:localhost:22 "
 alias lssh="ssh -NfL 12345:localhost:12345 "
-alias strace="strace -ix"
-alias ltrace="ltrace -i"
+alias strace="strace -ixv"
+alias ltrace="ltrace -iC"
 alias objdump="objdump -M intel"
 alias len="expr length "
 alias fuck="killall -9 "
 
 alias ll='ls -l'
-alias la='ls -A'
+alias la='ls -Ahl'
 alias l='ls -CF'
 alias rm="rm -i"
 alias mv="mv -i"

@@ -176,7 +176,7 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
         alias vc12="~/Tools/VC12/setenv"
         alias clexe="vc9 cl.exe /MD /EHsc /Oi /O2 /Gy /nologo "
         alias cldll="vc9 cl.exe /LD /link "
-        alias nodyn="vc9 link.exe /edit /DYNAMICBASE:NO "
+        alias deaslr="vc9 link.exe /edit /dynamicbase:NO "
 
         unset PYTHONHOME
     fi

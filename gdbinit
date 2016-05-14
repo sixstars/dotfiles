@@ -12,7 +12,7 @@ set history expansion on
 
 set print asm-demangle on
 
-set prompt \033[1;37m[gdb] \033[m
+set prompt \033[38;5;214m[gdb] \033[m
 
 # Custom functions
 

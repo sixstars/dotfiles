@@ -70,43 +70,43 @@ define off
 end
 
 define got
-    python got()
+    pwngdb got
 end
 
 define dyn
-    python dyn()
+    pwngdb dyn
 end
 
 define rop
-    python rop()
+    pwngdb rop
 end
 
 # Heap functions from Pwngdb
 
 define heap
-    python putheap()
+    pwngdb putheap
 end
 
 define fastbin
-    python putfastbin()
+    pwngdb putfastbin
 end
 
 define heapinfo
-    python putheapinfo()
+    pwngdb putheapinfo
 end
 
 define tracemode
-    python tracemode("$arg0")
+    pwngdb tracemode "$arg0"
 end
 
 define reg
-    python get_reg("$arg0")
+    pwngdb get_reg "$arg0"
 end
 
 define tracemalloc
-    python set_trace_mode("$arg0")
+    pwngdb set_trace_mode "$arg0"
 end
 
 define inused
-    python putinused()
+    pwngdb putinused
 end

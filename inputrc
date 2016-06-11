@@ -1,6 +1,3 @@
 set completion-ignore-case on
 set show-all-if-ambiguous on
-"\e[A": history-search-backward
-"\ek": history-search-backward
-"\e[B": history-search-forward
-"\ej": history-search-forward
+set bell-style none

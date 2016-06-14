@@ -19,13 +19,17 @@ snippet s
 snippet inter
 	r.interactive()
 snippet z3
-	x = [BitVec("x%d" % i, 32) for i in range(32)]
+	#!/usr/bin/env python
+	# -*- coding: utf-8 -*-
+	from z3 import *
+	
+	x = [BitVec("x%d" % i, 8) for i in range(32)]
 	
 	s = Solver()
 	s.add()
 	
 	if s.check() != sat:
-	    print "Unsat QQ"
+	    print "Unsat"
 	else:
-	    ans = s.model()
-	    print "".join([chr(ans[m[i]].as_long()) for i in range(32)])
+	    m = s.model()
+	    print "".join([chr(m[x[i]].as_long()) for i in range(32)])

@@ -25,6 +25,15 @@ syscall()
     grep --color -m 1 "$1" /usr/include/asm/unistd.h /usr/include/asm/unistd_32.h /usr/include/asm/unistd_64.h 2>/dev/null
 }
 
+libc()
+{
+    libc_system=$(readelf -s "$1" | grep " system@" | awk '{print $2}')
+    libc_sh=$(strings -tx "$1" | grep "/bin/sh" | awk '{print $1}')
+    echo "libc_system = libc_base + 0x$libc_system"
+    echo "libc_sh = libc_base + 0x$libc_sh"
+    
+}
+
 asm2elf()
 {
     local OUTPUT=${2:-"elf.out"}

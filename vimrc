@@ -71,7 +71,7 @@ set fileencodings=usc-bom,utf-8,big5,taiwan,chinese,default,latin1
 autocmd FileType make setlocal noexpandtab
 
 " Indent 2 for html / css
-autocmd BufNewFile,BufRead *.html,*.htm,*.css set noexpandtab tabstop=2 shiftwidth=2  
+autocmd BufNewFile,BufRead *.html,*.htm,*.css setlocal noexpandtab tabstop=2 shiftwidth=2  
 
 "==============================================================
 ">  VIM user interface
@@ -257,7 +257,7 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
-autocmd BufWrite *.py,*.coffee,*.js,*.html,*.c,*.cpp,*.xm :call DeleteTrailingWS()
+"autocmd BufWrite *.py,*.coffee,*.js,*.html,*.c,*.cpp,*.xm :call DeleteTrailingWS()
 
 "==============================================================
 ">  Misc

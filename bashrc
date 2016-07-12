@@ -140,6 +140,11 @@ export LESS_TERMCAP_ue=$'\E[0m'         # end underline
 # ssh auto complete
 complete -W "$(echo `cat ~/.bash_history | egrep '^(p|g)?ssh ' | sort | uniq | sed 's/^ssh //'`;)" ssh
 
+function de() 
+{
+    sudo docker exec -it $1 bash
+}
+
 # OSX and Cygwin
 if [ "$(uname)" == "Darwin" ]; then
     export LSCOLORS="Exfxcxdxbxegedabagacad"

@@ -8,6 +8,7 @@ all: clean
 	ln -s ${HOME}/.dotfiles/tmux-osx.conf ${HOME}/.tmux-osx.conf
 	ln -s ${HOME}/.dotfiles/tmux.conf ${HOME}/.tmux.conf
 	ln -s ${HOME}/.dotfiles/vimrc ${HOME}/.vimrc
+	mkdir -p ${HOME}/.vim/
 	ln -s ${HOME}/.dotfiles/vim-snippets ${HOME}/.vim/snippets
 
 clean:

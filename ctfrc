@@ -28,9 +28,13 @@ syscall()
 libc()
 {
     libc_system=$(readelf -s "$1" | grep " system@" | awk '{print $2}')
+    libc_execve=$(readelf -s "$1" | grep " execve@" | awk '{print $2}')
     libc_sh=$(strings -tx "$1" | grep "/bin/sh" | awk '{print $1}')
+    libc_magic=$(objdump -d "$1" | grep $(strings -tx "$1" | grep "/bin/sh" | awk '{print $1}') -B1 | head -n 1 | awk '{print $1}' | tr -d :)
     echo "libc_system = libc_base + 0x$libc_system"
+    echo "libc_execve= libc_base + 0x$libc_execve"
     echo "libc_sh = libc_base + 0x$libc_sh"
+    echo "libc_magic = libc_base + 0x$libc_magic"
     
 }
 
@@ -83,7 +87,8 @@ ncat-strace()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
-        ncat -vc "strace -ixv -s 100 $*" -kl localhost 4000 
+        local PORT=${2:-4000}
+        ncat -vc "strace -ixv -s 100 $*" -kl localhost $PORT
     fi
 }
 
@@ -92,7 +97,18 @@ ncat-ltrace()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
-        ncat -vc "ltrace -iC $*" -kl localhost 4000 
+        local PORT=${2:-4000}
+        ncat -vc "ltrace -iC $*" -kl localhost $PORT
+    fi
+}
+
+ncat-heap()
+{
+    if [ ! -f ${@: -1} ]; then
+        echo "${@: -1} not found!"
+    else
+        local PORT=${2:-4000}
+        ncat -vc "ltrace -e malloc+calloc+free -iC $*" -kl localhost $PORT
     fi
 }
 
@@ -112,11 +128,12 @@ ncat-gdb()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
-        echo ${@: -1} listen on port 4000, gdbserver listen on port 4444
+        local PORT=${2:-4000}
+        echo ${@: -1} listen on port $PORT , gdbserver listen on port 4444
         echo run \'gdb ${@: -1}\' then target remote localhost:4444 in gdb
         echo 
 
-        ncat -vc "gdbserver localhost:4444 $*" -kl localhost 4000 
+        ncat -vc "gdbserver localhost:4444 $*" -kl localhost $PORT
     fi
 }
 
@@ -127,8 +144,7 @@ fuckalarm()
     elif [ ! -f $1 ]; then
         echo "$1 not found!"
     else
-        sed s/alarm/isnan/g "$1" > $1"_noalarm"
-        chmod +x $1"_noalarm"
+        sed -i s/alarm/isnan/g "$1"
     fi
 }
 
@@ -308,4 +324,9 @@ rsa-dec()
         local OUTPUT=${3:-"$2.dec"}
         openssl rsautl -decrypt -inkey $1 -in $2 -out $OUTPUT
     fi
+}
+
+angr()
+{
+    docker run -it --rm -v $(pwd):/home/angr/work angr/angr
 }

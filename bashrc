@@ -145,6 +145,16 @@ function de()
     sudo docker exec -it $1 bash
 }
 
+function run14()
+{
+    docker run -p 4000:4000 -h ubuntu14 -v $HOME:$HOME -v $HOME/CTF:/CTF/ --name=ubuntu14 -it lays/ubuntu14
+}
+
+function u14()
+{
+    docker start -ia ubuntu14
+}
+
 # OSX and Cygwin
 if [ "$(uname)" == "Darwin" ]; then
     export LSCOLORS="Exfxcxdxbxegedabagacad"

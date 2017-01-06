@@ -43,17 +43,19 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
 if [ "$color_prompt" = yes ]; then
-    if [ "$(id -u)" = "0" ]; then
+    if [ -f /.dockerenv ]; then
+        PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;31m\]$(__git_ps1)\[\033[00m\]\$ '
+    elif [ "$(id -u)" = "0" ]; then
         PS1='\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;31m\]$(__git_ps1)\[\033[00m\]\$ '
     else
         PS1='\[\033[38;5;214m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;31m\]$(__git_ps1)\[\033[00m\]\$ '
@@ -142,17 +144,16 @@ complete -W "$(echo `cat ~/.bash_history | egrep '^(p|g)?ssh ' | sort | uniq | s
 
 function de() 
 {
-    sudo docker exec -it $1 bash
+    docker exec -it $1 bash
 }
 
-function run14()
+function tunnel()
 {
-    docker run -p 4000:4000 -h ubuntu14 -v $HOME:$HOME -v $HOME/CTF:/CTF/ --name=ubuntu14 -it lays/ubuntu14
-}
-
-function u14()
-{
-    docker start -ia ubuntu14
+    if [ $# != 4 ]; then
+        echo "tunnel <LOCAL PORT> <DEST HOST> <DEST PORT> <host>"
+    else
+        ssh -NfL $1:$2:$3 $4
+    fi
 }
 
 # OSX and Cygwin
@@ -182,7 +183,7 @@ elif [ "$(uname -o)" == "Cygwin" ]; then
         alias dex2jar="~/Tools/dex2jar/d2j-dex2jar.bat"
         alias apktool="~/Tools/apktool/apktool.bat"
 
-		# pin
+        # pin
         alias pin="~/Tools/pin/pin"
         export PIN_ROOT="$TOOLS/pin"
 

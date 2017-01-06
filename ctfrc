@@ -9,6 +9,16 @@ alias asm-a64="aarch64-linux-gnu-as -aln -o /dev/null"
 alias lddd="LD_TRACE_LOADED_OBJECTS=1"
 alias NOASLR="setarch `uname -m` -R"
 
+u14()
+{
+    if docker ps -a | grep -q "ubuntu14";  then
+        docker start ubuntu14 > /dev/null
+        docker exec -it ubuntu14 /bin/bash
+    else
+        docker run --privileged -p 4000:4000 -h ubuntu14 -v $HOME:$HOME -v $HOME/CTF:/CTF/ --name=ubuntu14 -it lays/ubuntu14
+    fi
+}
+
 aslr()
 {
     if [ -z $1 ]; then
@@ -77,8 +87,13 @@ ncat-local()
     if [ -z "$1" ]; then
         echo "Usage: $FUNCNAME <command>"
     else
+        if [ -f /.dockerenv ]; then
+            local HOST=0.0.0.0
+        else
+            local HOST=localhost
+        fi
         local PORT=${2:-4000}
-        ncat -vc "$*" -kl localhost $PORT
+        ncat -vc "$*" -kl $HOST $PORT
     fi
 }
 
@@ -87,8 +102,13 @@ ncat-strace()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
+        if [ -f /.dockerenv ]; then
+            local HOST=0.0.0.0
+        else
+            local HOST=localhost
+        fi
         local PORT=${2:-4000}
-        ncat -vc "strace -ixv -s 100 $*" -kl localhost $PORT
+        ncat -vc "strace -ixv -s 100 $*" -kl $HOST $PORT
     fi
 }
 
@@ -97,8 +117,13 @@ ncat-ltrace()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
+        if [ -f /.dockerenv ]; then
+            local HOST=0.0.0.0
+        else
+            local HOST=localhost
+        fi
         local PORT=${2:-4000}
-        ncat -vc "ltrace -iC $*" -kl localhost $PORT
+        ncat -vc "ltrace -iC $*" -kl $HOST  $PORT
     fi
 }
 
@@ -107,8 +132,13 @@ ncat-heap()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
+        if [ -f /.dockerenv ]; then
+            local HOST=0.0.0.0
+        else
+            local HOST=localhost
+        fi
         local PORT=${2:-4000}
-        ncat -vc "ltrace -e malloc+calloc+free -iC $*" -kl localhost $PORT
+        ncat -vc "ltrace -e malloc+calloc+free -iC $*" -kl $HOST  $PORT
     fi
 }
 
@@ -128,12 +158,17 @@ ncat-gdb()
     if [ ! -f ${@: -1} ]; then
         echo "${@: -1} not found!"
     else
+        if [ -f /.dockerenv ]; then
+            local HOST=0.0.0.0
+        else
+            local HOST=localhost
+        fi
         local PORT=${2:-4000}
         echo ${@: -1} listen on port $PORT , gdbserver listen on port 4444
         echo run \'gdb ${@: -1}\' then target remote localhost:4444 in gdb
         echo 
 
-        ncat -vc "gdbserver localhost:4444 $*" -kl localhost $PORT
+        ncat -vc "gdbserver localhost:4444 $*" -kl $HOST $PORT
     fi
 }
 

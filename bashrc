@@ -114,6 +114,7 @@ alias objdump="objdump -M intel"
 alias len="expr length "
 alias fuck="killall -9 "
 alias djson="python -m json.tool"
+alias folders="find . -maxdepth 1 -type d -print0 | xargs -0 du -skh | sort -rn"
 
 alias ll='ls -l'
 alias la='ls -Ahl'
@@ -153,11 +154,6 @@ function tunnel()
     else
         ssh -NfL $1:$2:$3 $4
     fi
-}
-
-function proxy()
-{
-    ssh -NfD 8080 $1
 }
 
 # OSX and Cygwin

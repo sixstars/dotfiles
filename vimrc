@@ -321,7 +321,8 @@ cmap w!! w !sudo tee > /dev/null %
 
 " Copy to system clipboard by Ctrl-C
 if has("mac") || has("macunix")
-    vmap <C-c> :w !pbcopy<CR><CR> 
+    vmap <silent><C-c> :w !pbcopy<CR><CR>
+    noremap <silent><leader>c :w !pbcopy<CR><CR>
 endif
 
 " Daily routines

@@ -108,7 +108,6 @@ alias rip="curl orange.tw"
 alias tip="curl --socks5 127.0.0.1:9150 orange.tw"
 alias tcurl="curl --socks5 127.0.0.1:9150 "
 alias tssh="ssh -o 'ProxyCommand /usr/bin/nc -x 127.0.0.1:9150 %h %p'"
-alias tunnel="ssh -D 8080 -C -N "
 alias rssh="ssh -NfR 12345:localhost:22 "
 alias lssh="ssh -NfL 12345:localhost:12345 "
 alias strace="strace -ixv"
@@ -116,6 +115,7 @@ alias ltrace="ltrace -iC"
 alias objdump="objdump -M intel"
 alias len="expr length "
 alias fuck="killall -9 "
+alias djson="python -m json.tool"
 
 alias ll='ls -l'
 alias la='ls -Ahl'
@@ -140,7 +140,8 @@ export LESS_TERMCAP_us=$'\E[38;5;167m'  # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'         # end underline
 
 # ssh auto complete
-complete -W "$(echo `cat ~/.bash_history | egrep '^(p|g)?ssh ' | sort | uniq | sed 's/^ssh //'`;)" ssh
+complete -W "$(cat ~/.ssh/known_hosts |  cut -f 1 -d ' ' | sed -e s/,.*//g | grep -v '^#' |  uniq | grep -v '\[';\
+               cat ~/.ssh/config | grep '^Host ' | grep -v '*' |  awk '{print $2}')" ssh
 
 function de() 
 {
@@ -154,6 +155,20 @@ function tunnel()
     else
         ssh -NfL $1:$2:$3 $4
     fi
+}
+
+function tunnel()
+{
+    if [ $# != 4 ]; then
+        echo "tunnel <LOCAL PORT> <DEST HOST> <DEST PORT> <host>"
+    else
+        ssh -NfL $1:$2:$3 $4
+    fi
+}
+
+function proxy()
+{
+    ssh -NfD 8080 $1
 }
 
 # OSX and Cygwin

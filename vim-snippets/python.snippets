@@ -17,16 +17,16 @@ snippet angr
 	
 	add_options = {"BYPASS_UNSUPPORTED_SYSCALL"}
 	argv1 = claripy.BVS("argv1", 8 * 100)
-	s = p.factory.entry_state(args=[p.filename, argv1], add_options=add_options)
-	# s = p.factory.blank_state(addr=main, add_options=add_options)
+	st = p.factory.entry_state(args=[p.filename, argv1], add_options=add_options)
+	# st = p.factory.blank_state(addr=main, add_options=add_options)
 	
-	for c in argv1.chop(8):
-	    s.add_constraints(c >= ' ')
-	    s.add_constraints(c <= '~')
+	#for c in argv1.chop(8):
+	#    st.add_constraints(c >= ' ')
+	#    st.add_constraints(c <= '~')
 
-	# state.add_constraints(argv1.get_byte(0) >= argv[1].get_byte(1))
+	# st.add_constraints(argv1.get_byte(0) >= argv[1].get_byte(1))
 	
-	pg = p.factory.path_group(s, immutable=False, threads=4)
+	pg = p.factory.path_group(st, immutable=False, threads=4, veritesting=True)
 	
 	find_addrs = (0x400546, )
 	avoid_addrs = ()
@@ -38,7 +38,6 @@ snippet angr
 	    # print fs.se.any_str(argv1)    # argv1
 	    # print fs.se.posix.dumps(0)    # stdin
 	    # print fs.se.any_str(fs.memory.load(0x601050, 29)) # mem
-	    print = pg.found[0].state.se._solver.result.model
 snippet pdb
 	import ipdb; ipdb.set_trace()
 snippet sc32
@@ -51,6 +50,8 @@ snippet r
 	r.recvuntil("${1}")
 snippet s
 	r.sendline(${1})
+snippet r
+	r.sendlineafter("${1}")
 snippet inter
 	r.interactive()
 snippet z3
@@ -58,16 +59,15 @@ snippet z3
 	# -*- coding: utf-8 -*-
 	from z3 import *
 	
-	x = [BitVec("x%d" % i, 8) for i in range(32)]
+	x = [BitVec("x_%d" % i, 8) for i in range(32)]
 	
 	s = Solver()
 	s.add()
 	
-	if s.check() != sat:
-	    print "Unsat"
-	else:
-	    m = s.model()
-	    print "".join([chr(m[x[i]].as_long()) for i in range(32)])
+	assert s.check() == sat
+
+	m = s.model()
+	print "".join([chr(m[x[i]].as_long()) for i in range(32)])
 snippet bv
 	[BitVec("x_%d" % i, 32) for i in range(32)]
 snippet ans

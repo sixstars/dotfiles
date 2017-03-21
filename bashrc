@@ -141,8 +141,8 @@ export LESS_TERMCAP_us=$'\E[38;5;167m'  # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'         # end underline
 
 # ssh auto complete
-complete -W "$(cat ~/.ssh/known_hosts |  cut -f 1 -d ' ' | sed -e s/,.*//g | grep -v '^#' |  uniq | grep -v '\[';\
-               cat ~/.ssh/config | grep '^Host ' | grep -v '*' |  awk '{print $2}')" ssh
+complete -W "$(cat ~/.ssh/known_hosts 2>&1|  cut -f 1 -d ' ' | sed -e s/,.*//g | grep -v '^#' |  uniq | grep -v '\[';\
+               cat ~/.ssh/config 2>&1| grep '^Host ' | grep -v '*' |  awk '{print $2}')" ssh
 
 function de() 
 {

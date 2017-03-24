@@ -21,7 +21,7 @@ set prompt \001\033[38;5;214m\002[gdb]\> \001\033[m\002
 
 define hook-run
 python
-init_angelheap()
+angelheap.init_angelheap()
 end
 end
 

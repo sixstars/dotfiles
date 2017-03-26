@@ -64,6 +64,18 @@ asm2elf64()
     rm -f $OBJ 2>&1 > /dev/null
 }
 
+c2s()
+{
+    local OUTPUT=${2:-"sc.bin"}
+    if [ -z "$1" ]; then
+        echo "Usage: $FUNCNAME <source code> [output file]"
+    else
+        gcc -nostdinc -fno-stack-protector -fno-common -O0 -fomit-frame-pointer -static -c $1 -o tmp.o
+        objcopy --only-section=.text --output-target binary tmp.o $OUTPUT
+        rm tmp.o
+    fi
+}
+
 pxxd()
 {
     if [ -z "$1" ]; then

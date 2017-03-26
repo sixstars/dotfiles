@@ -5,6 +5,7 @@ source ~/.pwngdb/angelheap/gdbinit.py
 python
 import angelheap
 config.Option.set("pagesize", 0)
+config.Option.set("context", "all")
 config.Option.set("session", "~/.peda/sessions/peda-session-#FILENAME#.txt")
 end
 
@@ -19,6 +20,8 @@ set history expansion on
 
 set prompt \001\033[38;5;214m\002[gdb]\> \001\033[m\002
 
+alias heapls = parseheap
+
 define hook-run
 python
 angelheap.init_angelheap()
@@ -26,6 +29,18 @@ end
 end
 
 # Custom functions
+
+define preload
+    if $argc != 1
+        set environment LD_PRELOAD=
+    else
+        set environment LD_PRELOAD=$arg0
+    end
+end
+document preload
+Set LD_PRELOAD environment variable
+preload <library path>
+end
 
 define re
     if $argc == 0
@@ -35,23 +50,21 @@ define re
     end
 end
 document re
-Syntax: re PORT
-| Remote debug
+Remote debug
+re <port>
 end
 
 define tret
     stepuntil ret
 end
 document tret
-Syntax: tret
-| Step until ret instruction
+Step until ret instruction
 end
 
 define tcall
     stepuntil tcall
 end
 document tcall
-Syntax: tcall
-| Step until ret instruction
+Step until call instruction
 end
 

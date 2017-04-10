@@ -144,6 +144,12 @@ export LESS_TERMCAP_ue=$'\E[0m'         # end underline
 complete -W "$(cat ~/.ssh/known_hosts 2>&1|  cut -f 1 -d ' ' | sed -e s/,.*//g | grep -v '^#' |  uniq | grep -v '\[';\
                cat ~/.ssh/config 2>&1| grep '^Host ' | grep -v '*' |  awk '{print $2}')" ssh
 
+# virtualenvwrapper
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    export WORKON_HOME=~/Env
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
 function de() 
 {
     docker exec -it $1 bash

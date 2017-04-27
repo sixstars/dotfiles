@@ -347,9 +347,13 @@ set pastetoggle=<F2>
 noremap <silent> <F3> :set nu!<CR>
 imap <silent><F3> <C-O><F3>
 
-" <F4> toggles hex edit
-noremap <silent> <F4> :call ToggleHex()<CR>
+" <F4> toggles line wrap
+noremap <silent> <F4> :set wrap!<CR>
 imap <silent><F4> <C-O><F4>
+
+" <F5> toggles hex edit
+noremap <silent> <F5> :call ToggleHex()<CR>
+imap <silent><F5> <C-O><F5>
 
 " <F6> syntax sync
 noremap <F6> <Esc>:syntax sync fromstart<CR>

@@ -75,3 +75,8 @@ snippet z3
 
 	m = s.model()
 	print "".join([chr(m[x[i]].as_long()) for i in range(32)])
+snippet rand
+	import ctypes
+	LIBC = ctypes.cdll.LoadLibrary("libc.so.6")
+	LIBC.srand(LIBC.time(0))
+	LIBC.rand()

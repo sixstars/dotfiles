@@ -7,6 +7,7 @@ all: clean
 	ln -s ${HOME}/.dotfiles/pythonrc ${HOME}/.pythonrc
 	ln -s ${HOME}/.dotfiles/tmux-osx.conf ${HOME}/.tmux-osx.conf
 	ln -s ${HOME}/.dotfiles/tmux.conf ${HOME}/.tmux.conf
+	ln -s ${HOME}/.dotfiles/idauser.cfg ${HOME}/.idapro/idauser.cfg
 	ln -s ${HOME}/.dotfiles/vimrc ${HOME}/.vimrc
 	mkdir -p ${HOME}/.vim/
 	ln -s ${HOME}/.dotfiles/vim-snippets ${HOME}/.vim/snippets
@@ -20,5 +21,6 @@ clean:
 	rm -rf ${HOME}/.pythonrc
 	rm -rf ${HOME}/.tmux-osx.conf
 	rm -rf ${HOME}/.tmux.conf
+	rm -rf ${HOME}/.idapro/idauser.cfg
 	rm -rf ${HOME}/.vimrc
 	rm -rf ${HOME}/.vim/snippets

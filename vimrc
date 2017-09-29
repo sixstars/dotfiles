@@ -37,6 +37,7 @@ else
     Plugin 'L4ys/molokai'
     Plugin 'vectorstorm/vim-csyn'
     Plugin 'tpope/vim-surround'
+    Plugin 'sheerun/vim-polyglot'
     if has("mac") || has("macunix")
         Plugin 'msanders/cocoa.vim'
     endif
@@ -71,7 +72,7 @@ set fileencodings=usc-bom,utf-8,big5,taiwan,chinese,default,latin1
 autocmd FileType make setlocal noexpandtab
 
 " Indent 2 for html / css
-autocmd BufNewFile,BufRead *.html,*.htm,*.css setlocal noexpandtab tabstop=2 shiftwidth=2  
+autocmd BufNewFile,BufRead *.html,*.htm,*.css setlocal tabstop=2 shiftwidth=2
 
 "==============================================================
 ">  VIM user interface

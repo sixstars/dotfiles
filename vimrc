@@ -3,47 +3,37 @@
 set nocompatible               " be iMproved
 
 "==============================================================
-">  Vundle
+"> vim-plug 
 "==============================================================
 
-" Check if vundle installed
-if !filereadable(expand('~/.vim/bundle/Vundle.vim/README.md'))
-    echo "Vundle not installed!"
-    if confirm("Install Vundle now?", "&Yes\n&No", 1)==1
-        silent !git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-        silent !vim +PluginInstall +qall
-        echo "Vundle Installed"
-        silent !vim
-        exit
+" Check if vim-plug installed
+if empty(glob('~/.vim/autoload/plug.vim'))
+    echo "vim-plug not installed!"
+    if confirm("Install vim-plug now?", "&Yes\n&No", 1)==1
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     endif
 else
-    " Init vundle
-    filetype off                   " required!
-
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin()
-
-    Plugin 'gmarik/Vundle.vim'
+    call plug#begin('~/.vim/plugged')
 
     " --- Plugins ---
-    Plugin 'L9'             "L9 is required by AutoComplPop
-    Plugin 'othree/vim-autocomplpop'
-    Plugin 'ctrlpvim/ctrlp.vim'
-    Plugin 'majutsushi/tagbar'
-    Plugin 'SirVer/ultisnips'
-    Plugin 'honza/vim-snippets'
-    Plugin 'vim-airline/vim-airline'
-    Plugin 'vim-airline/vim-airline-themes'
-    Plugin 'L4ys/molokai'
-    Plugin 'vectorstorm/vim-csyn'
-    Plugin 'tpope/vim-surround'
-    Plugin 'sheerun/vim-polyglot'
+    Plug 'vim-scripts/L9'
+    Plug 'othree/vim-autocomplpop'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'majutsushi/tagbar'
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'L4ys/molokai'
+    Plug 'tpope/vim-surround'
+    Plug 'sheerun/vim-polyglot'
     if has("mac") || has("macunix")
-        Plugin 'msanders/cocoa.vim'
+        Plug 'msanders/cocoa.vim'
     endif
 
-    call vundle#end()
-    filetype plugin indent on      " required!
+    call plug#end()
 endif
 
 "==============================================================
@@ -156,7 +146,7 @@ set cursorline
 set t_Co=256
 let g:rehash256 = 1
 
-if filereadable(expand('~/.vim/bundle/molokai/colors/molokai.vim'))
+if filereadable(expand('~/.vim/plugged/molokai/colors/molokai.vim'))
     let g:molokai_original = 1
     colorscheme molokai
 endif
@@ -412,3 +402,4 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
+let g:polyglot_disabled = ['python']

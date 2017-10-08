@@ -105,10 +105,10 @@ ffffff	 //Message text
 000000	 //Highlight color
 1b1f1f	 //Hint color
 [SYNTAX]
-ff0000	0	0	 //Keyword 1
-800080	0	0	 //Keyword 2
-0000ff	0	0	 //Keyword 3
-00008b	0	0	 //String
-006400	0	1	 //Comment
-ff0000	1	0	 //Preprocessor
-8b8b00	1	0	 //Number
+edd152	0	0	 //Keyword 1
+edd152	0	0	 //Keyword 2
+5d00f8	0	0	 //Keyword 3
+5ad7e0	0	0	 //String
+4b5e62	0	1	 //Comment
+5d00f8	1	0	 //Preprocessor
+ef5992	1	0	 //Number

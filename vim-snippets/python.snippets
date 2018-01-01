@@ -95,3 +95,26 @@ snippet rc4
 	        res += chr(ord(d) ^ S[(S[i] + S[j]) % 256])
 	    return res 
 
+snippet rsa
+	def egcd(a, b):
+	    if a == 0:
+	        return (b, 0, 1)
+	    else:
+	        g, y, x = egcd(b % a, a)
+	        return (g, x - (b // a) * y, y)
+	
+	def modinv(a, m):
+	    g, x, y = egcd(a, m)
+	    if g != 1:
+	        raise Exception('modular inverse does not exist')
+	    else:
+	        return x % m
+	
+	# N = 
+	# e = 
+	# p = 
+	# q = 
+	# d = modinv(e,(p-1)*(q-1))
+	# c = 
+	# m = pow(c, d, N)
+

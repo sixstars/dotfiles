@@ -102,9 +102,10 @@ export CLICOLOR=1
 export TERM=screen-256color
 export PIN_ROOT="$HOME/bin/pin"
 
-alias gdb="gdb -q"
-alias pwndbg="gdb -x ~/pwndbg/gdbinit.py"
-alias tmux="tmux -2"
+#alias gdb="gdb -q"
+alias gdbb="gdb -n"
+alias pwndbg="gdb -x ~/.pwndbg/gdbinit.py"
+alias tmux="TERM=xterm-256color tmux"
 alias rip="curl orange.tw"
 alias tip="curl --socks5 127.0.0.1:9150 orange.tw"
 alias tcurl="curl --socks5 127.0.0.1:9150 "
@@ -125,6 +126,8 @@ alias l='ls -CF'
 alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -150,6 +153,16 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/Env
     source /usr/local/bin/virtualenvwrapper.sh
 fi
+
+function at() {
+    if [[ "$1" =~ ^[0-9]+$ ]]
+    then
+        sudo gdb attach $1
+    else
+        sudo gdb attach `pidof -s $1`
+    fi
+}
+
 
 function de() 
 {

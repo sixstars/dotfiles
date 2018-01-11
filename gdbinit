@@ -1,4 +1,5 @@
 source ~/.peda/peda.py
+#source ~/.pwndbg/gdbinit.py
 source ~/.pwngdb/pwngdb.py
 source ~/.pwngdb/angelheap/gdbinit.py
 
@@ -18,7 +19,7 @@ set history filename ~/.gdb_history
 set history size 32768
 set history expansion on
 
-set prompt \001\033[38;5;214m\002[gdb]\> \001\033[m\002
+set prompt \001\033[38;5;214m\002[gdb]\$ \001\033[m\002
 
 alias heapls = parseheap
 

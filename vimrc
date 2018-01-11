@@ -29,6 +29,7 @@ else
     Plug 'L4ys/molokai'
     Plug 'tpope/vim-surround'
     Plug 'sheerun/vim-polyglot'
+    Plug 'rhysd/accelerated-jk'
     if has("mac") || has("macunix")
         Plug 'msanders/cocoa.vim'
     endif
@@ -129,7 +130,7 @@ set tm=500
 set laststatus=2
 
 " hold shift to select and copy text
-set mouse=a
+" set mouse=a
 
 "==============================================================
 ">  Colors and Fonts
@@ -403,3 +404,7 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 let g:polyglot_disabled = ['python']
+
+" jk
+nmap j <Plug>(accelerated_jk_gj)
+nmap k <Plug>(accelerated_jk_gk)

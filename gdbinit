@@ -69,3 +69,20 @@ document tcall
 Step until call instruction
 end
 
+define gg
+#    if $arg0 == 64
+#        set env LD_LIBRARY_PATH=/dbg64
+#    else
+#        set env LD_LIBRARY_PATH=/dbg32
+#    end
+python
+arch = getarch()
+if arch == 'i386':
+    gdb.execute('set env LD_LIBRARY_PATH=/dbg32')
+else:
+    gdb.execute('set env LD_LIBRARY_PATH=/dbg64')
+end
+end
+document gg
+Replace libc with a debug version
+end
